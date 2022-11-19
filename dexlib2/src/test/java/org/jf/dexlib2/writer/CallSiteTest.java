@@ -62,6 +62,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class CallSiteTest {
     @Test
@@ -83,7 +84,7 @@ public class CallSiteTest {
                                                         "someMethod", new ImmutableMethodProtoReference(ImmutableList.of(), "V"), ImmutableList.of()))
                                 ), null, null))));
 
-        File tempFile = File.createTempFile("dex", ".dex");
+        File tempFile = Files.createTempFile("dex", ".dex").toFile();
         DexFileFactory.writeDexFile(tempFile.getPath(),
                 new ImmutableDexFile(Opcodes.forArtVersion(111), ImmutableList.of(class1)));
 
@@ -114,7 +115,7 @@ public class CallSiteTest {
                 ImmutableSet.of(), null,
                 ImmutableList.of(method));
 
-        File tempFile = File.createTempFile("dex", ".dex");
+        File tempFile = Files.createTempFile("dex", ".dex").toFile();
         dexBuilder.writeTo(new FileDataStore(tempFile));
 
         verifyDexFile(DexFileFactory.loadDexFile(tempFile, Opcodes.forArtVersion(111)));

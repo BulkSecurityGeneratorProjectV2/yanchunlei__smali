@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
+import java.nio.file.Files;
 
 /**
  * A deferred output stream that uses a file as its backing store, with a in-memory intermediate buffer.
@@ -96,7 +97,7 @@ public class FileDeferredOutputStream extends DeferredOutputStream {
                                                          final int bufferSize) {
         return new DeferredOutputStreamFactory() {
             @Override public DeferredOutputStream makeDeferredOutputStream() throws IOException {
-                File tempFile = File.createTempFile("dexlibtmp", null, containingDirectory);
+                File tempFile = Files.createTempFile(containingDirectory.toPath(), "dexlibtmp", null).toFile();
                 return new FileDeferredOutputStream(tempFile, bufferSize);
             }
         };
